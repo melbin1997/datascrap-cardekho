@@ -8,43 +8,51 @@ from selenium.webdriver.support import expected_conditions as EC
 class CardekhoSearch(unittest.TestCase):
 
     def setUp(self):
-        #user_input = raw_input("Enter : ")
         self.driver = webdriver.Firefox()
 
     def test_search_cardekho(self):
-        user_input = "Maruti 800"
+        user_input = "Volkswagen Ameo"
         driver = self.driver
         driver.get("https://www.cardekho.com/")
-        #self.assertIn("CarDekho", driver.title)
         car_name = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "cardekhosearchtext")))
         car_name.clear()
         car_name.send_keys(user_input)
         car_name.send_keys(Keys.RETURN)
-        #TODO : Change RETURN to search button click
         assert "No results found." not in driver.page_source
         driver.switch_to.default_content()
-        #driver.findElement(By.linkText(user_input)).click()
-        #driver.find_element_by_partial_link_text(user_input).click()
-        found = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "cardekhosearchtext")))
+        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "a[title*='" + user_input + "']")))
         driver.find_element_by_css_selector("a[title*='" + user_input + "']").click()
+
+
+
+        '''driver = self.driver
+        driver.get("https://www.cardekho.com/carmodels/Maruti/Maruti_800")'''
+
         driver.find_element_by_css_selector("a[title*='Specs']").click()
-
-
         keyf_collection = driver.find_elements_by_xpath("//table[@class='keyfeature']/tbody/tr")
+        #Displays key features
+        for elem in range(len(keyf_collection)):
+            td = keyf_collection[elem].find_elements_by_tag_name('td')
+            for i in td:
+                if(i.get_attribute('class') == 'lefttd' or i.get_attribute('class') == 'righttd'):
+                    print i.text,
+            print
 
-        #TODO : Change the method of printing
-        print keyf_collection.len()
-        for elem in keyf_collection:
-            print elem.text
-
-
-
-
-        '''techf_collection = driver.find_elements_by_xpath("//div[@class='specinner']/div/table")
-        #cap = driver.find_elements_by_xpath("//div[@class='specinner']/div/table[1]/tbody")
-
-        for elem in techf_collection:
-            print elem.text'''
+        techf_collection = driver.find_elements_by_xpath("//div[@class='specinner']/div/table")
+        #Displays technical specs
+        for li in range(len(techf_collection)):
+            print techf_collection[li].find_elements_by_xpath("//div[@class='specinner']/div/table//th")[li].get_attribute('title')
+            tr = techf_collection[li].find_elements_by_tag_name('tr')
+            for i in range(len(tr)):
+                td = tr[i].find_elements_by_tag_name('td')
+                for j in td:
+                    print j.text,
+                    if('has not' in j.get_attribute('title')):
+                        print "False",
+                    elif('has' in j.get_attribute('title')):
+                        print "True",
+                print
+            print
 
     def tearDown(self):
         self.driver.close()
