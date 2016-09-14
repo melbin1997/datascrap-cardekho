@@ -19,6 +19,7 @@ c=pickle.load(open("images_found.p","rb"))
 l=len(b)
 g1=1
 lis=[]
+driver = webdriver.Chrome()
 
 for key in b:
 	q=time.time()
@@ -39,7 +40,6 @@ for key in b:
 			print
 			print "Fetching the pictures of ",b[key]
 			user_input =b[key]
-			driver = webdriver.Chrome()
 			driver.get("https://www.cardekho.com/")
 			car_name = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "cardekhosearchtext")))
 			car_name.clear()
@@ -66,7 +66,6 @@ for key in b:
 			print img_links
 			a=pickle.load(open("images_found.p","rb"))
 			a[b[key]]=img_links
-			driver.close()
 			
 			#storing the obtained data to the file
 			pickle.dump(a,open("images_found.p","wb"))
@@ -85,6 +84,7 @@ for key in b:
 			print "Completed= ",g1,"/",l
 			print "Percentage completed= ",g1*100/float(l)
 			g1+=1
+			driver = webdriver.Chrome()
 			time.sleep(5)
 
 
