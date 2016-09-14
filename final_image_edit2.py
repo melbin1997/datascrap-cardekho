@@ -1,9 +1,3 @@
-'''rename the file pictures.p as images_found.p
-'''
-
-
-
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -91,6 +85,7 @@ for key in b:
 			print "Completed= ",g1,"/",l
 			print "Percentage completed= ",g1*100/float(l)
 			g1+=1
+			time.sleep(5)
 
 
 
