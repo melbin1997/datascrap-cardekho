@@ -20,6 +20,7 @@ class CardekhoSearch(unittest.TestCase):
         car_name.clear()
         car_name.send_keys(user_input)
         car_name.send_keys(Keys.RETURN)
+        #driver.find_element_by_
         #TODO : Change RETURN to search button click
         assert "No results found." not in driver.page_source
         driver.switch_to.default_content()
@@ -33,7 +34,7 @@ class CardekhoSearch(unittest.TestCase):
         keyf_collection = driver.find_elements_by_xpath("//table[@class='keyfeature']/tbody/tr")
 
         #TODO : Change the method of printing
-        print keyf_collection.len()
+        #print keyf_collection.len()
         for elem in keyf_collection:
             print elem.text
 
