@@ -18,7 +18,9 @@ variants = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((
 for i in variants:
     variants_dict[i.get_attribute("title").encode('UTF8')] = i.get_attribute("href").encode('UTF8')
 
+print type(cars_dict)
 print cars_dict
+print type(variants_dict)
 print variants_dict
 
 driver.close()
